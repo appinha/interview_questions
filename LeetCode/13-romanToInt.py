@@ -4,9 +4,6 @@ from collections import defaultdict
 
 
 class Solution:
-    def __init__(self):
-        self.letters = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
-
     def romanToInt(self, s: str) -> int:
         intByDigit = defaultdict(int)
         last = None
@@ -16,11 +13,9 @@ class Solution:
             lastDigit = self._getDigit(last)
 
             if self._isBaseOne(c):
-                if not lastDigit:
+                if not last:
                     intByDigit[digit] += 1
-                elif lastDigit == digit and not self._isBaseOne(last):
-                    intByDigit[digit] -= 1
-                elif lastDigit > digit:
+                elif lastDigit > digit or (lastDigit == digit and not self._isBaseOne(last)):
                     intByDigit[digit] -= 1
                 else:
                     intByDigit[digit] += 1
@@ -32,6 +27,9 @@ class Solution:
         result = sum(digit * value for digit, value in intByDigit.items())
         return result
 
+    def __init__(self):
+        self.letters = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
+
     def _getDigit(self, c):
         return c and 10 ** (self.letters.index(c) // 2)
 
@@ -40,7 +38,6 @@ class Solution:
 
 
 if __name__ == '__main__':
-    solution = Solution()
     romanNumerals = [
         'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
         'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX',
@@ -48,5 +45,14 @@ if __name__ == '__main__':
         'XXXI', 'XXXII', 'XXXIII', 'XXXIV', 'XXXV', 'XXXVI', 'XXXVII', 'XXXVIII', 'XXXIX', 'XL',
         'XLI', 'XLII', 'XLIII', 'XLIV', 'XLV', 'XLVI', 'XLVII', 'XLVIII', 'XLIX', 'L'
     ]
-    for numeral in romanNumerals:
-        print(solution.romanToInt(numeral))
+
+    solution = Solution()
+    convertedInts = ''
+    results = []
+    for i, numeral in enumerate(romanNumerals):
+        convertedInt = solution.romanToInt(numeral)
+        convertedInts += str(convertedInt) + ', '
+        results.append(convertedInt == i + 1)
+
+    print(convertedInts[:-2])
+    print('OK!' if False not in results else 'ERROR')
