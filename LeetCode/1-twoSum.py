@@ -9,7 +9,7 @@ class Solution:
         for i, num in enumerate(nums):
             complement = target - num
             if complement in complementByNum:
-                return [i, nums.index(complement)]
+                return [nums.index(complement), i]
             complementByNum[num] = complement
 
 
