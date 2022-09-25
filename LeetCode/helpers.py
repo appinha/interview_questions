@@ -27,6 +27,10 @@ class LinkedList:
         return head
 
     def print(head: ListNode):
+        if not head:
+            print(None)
+            return
+
         result = '['
 
         currentNode = head
